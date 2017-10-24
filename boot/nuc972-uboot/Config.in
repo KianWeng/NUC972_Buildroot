@@ -1,0 +1,17 @@
+config BR2_TARGET_NUC972_UBOOT
+	bool "nuc972 uboot"
+	help
+	  The bootloader for nuvoton nuc972. 
+	  platforms.
+
+if BR2_TARGET_NUC972_UBOOT
+config BR2_BOOT_NUC972_UBOOT_CUSTOM_LOCAL_PATH
+	string "NUC972 uboot custom source site"
+	help
+	  custom the NUC972 uboot source site.
+
+config BR2_BOOT_NUC972_UBOOT_VERSION
+	string "NUC972 uboot custom version"
+	help
+	  custom the NUC972 uboot version
+endif

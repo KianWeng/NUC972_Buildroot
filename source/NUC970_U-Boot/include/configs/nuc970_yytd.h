@@ -269,6 +269,6 @@
 	    "ipaddr=192.168.1.101\0" \
 		"watchdog=off\0" \
         "uimage=eth2uart.ub\0" \
-        "bootcmd=fatload mmc 0 0x7fc0 ${uimage}; bootm 0x7fc0; sf probe 0 18000000; sf read 0x7fc0 0x200000 0x780000; bootm 0x7fc0\0" \
+        "bootcmd=sf probe 0 18000000; sf read 0x7fc0 0x200000 0x780000; bootm 0x7fc0\0" \
 
 #endif

@@ -91,6 +91,12 @@ int do_mdm_init = 0;
 extern void mdm_init(void); /* defined in board.c */
 #endif
 
+#ifdef CONFIG_NUC970_GPIO
+#define GPIO_PH3	(7*0x20 + 3)
+extern int gpio_request(unsigned gpio, const char *label);
+extern int gpio_direction_output(unsigned gpio, int val);
+#endif
+
 /***************************************************************************
  * Watch for 'delay' seconds for autoboot stop or autoboot delay string.
  * returns: 0 -  no key string, allow autoboot 1 - got key string, abort
@@ -413,6 +419,12 @@ void main_loop (void)
 
 #if defined(CONFIG_HUSH_INIT_VAR)
 	hush_init_var ();
+#endif
+
+#if defined(CONFIG_NUC970_GPIO) && !defined(CONFIG_NUC970_EXTERNAL_WDT)
+	printf("External WDT: off\n");
+	gpio_request(GPIO_PH3,NULL);
+	gpio_direction_output(GPIO_PH3, 1);
 #endif
 
 #ifdef CONFIG_PREBOOT

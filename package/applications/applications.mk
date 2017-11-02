@@ -3,12 +3,9 @@
 # applications
 #
 ################################################################################
-
-
-export $(grep "BR2_APPLICATIONS_CUSTOM_REPO_VERSION=" $(@D)/../../.config)
-
 APPLICATIONS_VERSION=1.0.0
-APPLICATIONS_SITE=$(call github,OpenNuvoton,NUC970_Linux_Applications,master)
+APPLICATIONS_SITE=$(call qstrip,$(BR2_APPLICATIONS_CUSTOM_LOCAL_PATH))
+APPLICATIONS_SITE_METHOD = local
 APPLICATIONS_LICENSE=MIT
 APPLICATIONS_LICENSE_FILES=LICENSE
 APPLICATIONS_MAKE_ENV=
@@ -24,6 +21,7 @@ SUBDIRS=	demos/ebi \
 		demos/crypto \
 		demos/etimer \
 		demos/gpio \
+		demos/gpio_button \
 		demos/lcm \
 		demos/cap \
 		demos/keypad \

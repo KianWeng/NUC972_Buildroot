@@ -8,10 +8,9 @@ config BR2_PACKAGE_APPLICATIONS
 
 if BR2_PACKAGE_APPLICATIONS
 
-#config BR2_APPLICATIONS_CUSTOM_REPO_URL
-#        string "URL of custom repository"
-#        default BR2_APPLICATION_CUSTOM_GIT_REPO_URL \
-#                if BR2_APPLICATION_CUSTOM_GIT_REPO_URL != ""  # legacy
+config BR2_APPLICATIONS_CUSTOM_LOCAL_PATH
+	string "Path of custom repository"
+	help
 
 #config BR2_APPLICATIONS_CUSTOM_REPO_VERSION
 #        string "Custom repository version"

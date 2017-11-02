@@ -9,7 +9,7 @@
 /bin/echo /sbin/mdev > /proc/sys/kernel/hotplug
 /sbin/mdev -s
 ifconfig eth0 192.0.0.65 netmask 255.255.255.0 up
-
+gpio_button_demo &
 
 
 

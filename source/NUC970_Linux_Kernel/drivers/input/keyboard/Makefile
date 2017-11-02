@@ -57,3 +57,4 @@ obj-$(CONFIG_KEYBOARD_TWL4030)		+= twl4030_keypad.o
 obj-$(CONFIG_KEYBOARD_XTKBD)		+= xtkbd.o
 obj-$(CONFIG_KEYBOARD_W90P910)		+= w90p910_keypad.o
 obj-$(CONFIG_KEYBOARD_NUC970)		+= nuc970_keypad.o
+obj-$(CONFIG_YYTD_GPIO_KEYS)        += yytd_gpio_keys.o

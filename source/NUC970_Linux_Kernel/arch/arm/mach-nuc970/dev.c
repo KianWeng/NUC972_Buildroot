@@ -800,15 +800,25 @@ struct platform_device nuc970_device_i2c1 = {
 #ifdef CONFIG_MTD_M25P80
 static struct mtd_partition nuc970_spi0_flash_partitions[] = {
  #ifdef CONFIG_BOARD_ETH2UART
-         {
+	{
+                .name = "uboot",
+                .size = 0x080000,
+                .offset = 0,
+        },
+        {
+                .name = "env",
+                .size = 0x010000,
+                .offset = 0x080000,
+        },
+        {
                 .name = "kernel",
-                .size = 0x0800000,
-                .offset = 0x1000000,
+                .size = 0xE00000,
+                .offset = 0x200000,
         },
         {
                 .name = "rootfs",
-                .size = 0x0800000,
-                .offset = 0x1800000,
+                .size = 0x1000000,
+                .offset = 0x1000000,
         },
  #else
         {

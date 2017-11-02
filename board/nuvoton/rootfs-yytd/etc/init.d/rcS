@@ -8,6 +8,9 @@
 /bin/echo > /dev/mdev.seq
 /bin/echo /sbin/mdev > /proc/sys/kernel/hotplug
 /sbin/mdev -s
+/bin/mount -t ext4 /dev/mmcblk0p1 /media/sd
+/bin/mount -t jffs2 /dev/mtdblock0 /system
+/bin/mount -t jffs2 /dev/mtdblock1 /userdata
 ifconfig eth0 192.0.0.65 netmask 255.255.255.0 up
 gpio_button_demo &
 

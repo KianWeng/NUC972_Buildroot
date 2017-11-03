@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Start mount....
+#
+
+case "$1" in
+  start)
+	echo "Starting mount..."
+	/bin/mount -t ext4 /dev/mmcblk0p1 /media/sd
+	/bin/mount -t jffs2 /dev/mtdblock0 /system
+	/bin/mount -t jffs2 /dev/mtdblock1 /userdata
+	;;
+  stop)
+	/bin/umount /media/sd
+	/bin/umount /system
+	/bin/umount /userdata
+	;;
+  restart|reload)
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

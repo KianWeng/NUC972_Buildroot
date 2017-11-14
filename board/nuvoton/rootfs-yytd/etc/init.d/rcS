@@ -3,6 +3,7 @@
 /bin/mount -t sysfs sysfs /sys
 /bin/mount -t ramfs /tmp
 /bin/mount -t ramfs /mnt
+/bin/mount -t devpts devpts /dev/pts
 #/bin/mkdir /mnt/pts
 #/bin/mount -t devpts devpts /dev/pts
 

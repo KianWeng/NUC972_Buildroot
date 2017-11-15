@@ -14,7 +14,8 @@ PURE_FTPD_DEPENDENCIES = $(if $(BR2_PACKAGE_LIBICONV),libiconv)
 PURE_FTPD_CONF_OPTS = \
 	--with-altlog \
 	--with-puredb \
-	--with-rfc2640
+	--with-rfc2640 \
+	--without-ascii
 
 ifeq ($(BR2_PACKAGE_ELFUTILS),y)
 PURE_FTPD_DEPENDENCIES += elfutils

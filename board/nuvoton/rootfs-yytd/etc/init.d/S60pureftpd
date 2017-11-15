@@ -1,0 +1,28 @@
+#!/bin/sh
+
+ARGS="-0 -1 -4 -A -B -C 8 -c 7 -D -E -H -I 10 -j -l puredb:/etc/pureftpd.pdb -s -z -Z"
+start() {
+    #pure-ftpd -l puredb:/etc/pureftpd.pdb &
+    printf "Starting pureftpd: "
+    start-stop-daemon -S -q -p /var/run/pureftpd.pid \
+    --exec /usr/sbin/pure-ftpd -- $ARGS
+    [ $? = 0 ] && echo "OK" || echo "FAIL"
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+	printf "Stopping pureftpd: "
+	start-stop-daemon -K -q -p /var/run/pureftpd.pid
+	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	;;
+    *)
+        echo "Usage: /etc/init.d/S50pureftpd {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0
+

@@ -29,6 +29,7 @@ static int genphy_config_aneg1(struct phy_device *phydev);
 
 
 static int smi_device_addr[] = {0x10, 0x11, 0x12, 0x13, 0x14};
+static int m88E6071_port_addr[] = {0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E};
 
 static int m88E6071_smi_chip_read(struct phy_device *phydev, int addr, int reg)
 {
@@ -85,23 +86,53 @@ static int m88E6071_smi_chip_write(struct phy_device *phydev, int addr, int reg,
 	return err;
 }
 
+static int m88E6071_config_vlan(struct phy_device *phydev)
+{
+	int err = 0;
+	int i;
+	int vlan_tables[] = {0x00, 0x2c, 0x2a, 0x26, 0x20, 0x1e, 0x00};
+
+	for(i = 1; i < 6; i++){
+		//err = mdiobus_read(phydev->bus, m88E6071_port_addr[i], 0x06);
+		//printk(KERN_INFO"Marvell:before write, port %d vlan register is %d.\n",i,err);
+		
+		err = mdiobus_write(phydev->bus, m88E6071_port_addr[i], 0x06, vlan_tables[i]);
+		if(err < 0){
+			printk(KERN_ERR"Marvell:write port %d vlan register error!\n",i);
+			return err;
+		}
+		//err = mdiobus_read(phydev->bus, m88E6071_port_addr[i], 0x06);
+		//printk(KERN_INFO"Marvell:after write, port %d vlan register is %d.\n",i,err);
+	}
+	
+	printk(KERN_INFO"Marvell:return config vlan.\n");
+	return err;
+}
+
 
 // open isolate 0.10
 // enable auto-negotiation 0.12
 // restart auto-negotiation 0.9
 static int m88E6071_config_init(struct phy_device *phydev)
 {
+	int err = 0;
+	
 	printk(KERN_INFO"Marvell:start to init config.\n");
 	phydev->speed = SPEED_100;
 	phydev->duplex = DUPLEX_FULL;
 	phydev->autoneg = AUTONEG_ENABLE;
+
+	err = m88E6071_config_vlan(phydev);
+	if(err < 0){
+		printk(KERN_ERR"Marvell:config vlan error.\n");
+	}
 	phydev->state = PHY_RUNNING;
 	
 	/*marvell 88e6071 port 5 has no PHY,so we do not need to config it.*/
 	//for(dev_port=0;dev_port<2;dev_port++)
 	//genphy_config_aneg1(phydev);
 	//dev_port = 1;
-	
+        printk(KERN_INFO"Marvell:return config init.\n");	
 	return 0;
 }
 

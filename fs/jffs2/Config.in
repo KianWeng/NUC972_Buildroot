@@ -109,4 +109,7 @@ config BR2_TARGET_ROOTFS_JFFS2_CUSTOM_PAGESIZE
 	  same value as the value of the PAGE_SIZE macro in Linux).  It is not
 	  related to the flash memory page size.
 
+config BR2_TARGET_ROOTFS_JFFS2_SOURCE_DIR
+	string "path of the rootfs source"
+
 endif

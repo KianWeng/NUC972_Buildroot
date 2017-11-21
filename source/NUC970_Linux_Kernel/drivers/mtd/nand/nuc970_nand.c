@@ -87,9 +87,9 @@ static struct nuc970_nand_ecclayout	nuc970_nand_EXECUTE_oob;
 #ifndef CONFIG_OF
 static struct mtd_partition	partitions[] = {
 	{
-		.name =	"system",
+		.name =	"yy",
 		.offset	= 0,
-		.size =	32 * 1024 * 1024,
+		.size =	50 * 1024 * 1024,
 		.ecclayout = (struct nand_ecclayout*)&nuc970_nand_SYSTEM_oob
 	},
 	{

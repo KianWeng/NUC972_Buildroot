@@ -5,19 +5,27 @@
 
 case "$1" in
   start)
-	printf "Starting mount SD card..."
-	/bin/mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
-	printf "Starting mount mtd0..."
-	/bin/mount -t jffs2 /dev/mtdblock0 /system
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
-	printf "Starting mount mtd1..."
-	/bin/mount -t jffs2 /dev/mtdblock1 /userdata 
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	if [ -e /dev/mmcblk0p1 ]; then 
+		printf "Starting mount SD card..."
+		/bin/mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
+	
+	if [ -e /dev/mtdblock0 ]; then
+		printf "Starting mount yy..."
+		/bin/mount -t yaffs2 /dev/mtdblock0 /yy
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
+
+	if [ -e /dev/mtdblock1 ];then
+		printf "Starting mount userdata..."
+		/bin/mount -t yaffs2 /dev/mtdblock1 /userdata 
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
 	;;
   stop)
 	/bin/umount /media/sd
-	/bin/umount /system
+	/bin/umount /yy
 	/bin/umount /userdata
 	;;
   restart|reload)

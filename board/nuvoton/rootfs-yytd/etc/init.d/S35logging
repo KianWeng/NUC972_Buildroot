@@ -11,8 +11,8 @@ KLOGD_ARGS=-n
 start() {
 	logger -t ${TAG} -s "Starting logging: "
 	#LOGFILE="/userdata/log/syslog_$(date "+%Y%m%d_%H_%M_%S")"
-	LOGFILE="/userdata/log/yytd_syslog"
-	[ -d /userdata/log ] || mkdir /userdata/log
+	LOGFILE="/media/sd/CASS/FTP/LOG/yytd_syslog"
+	[ -d /media/sd/CASS/FTP/LOG ] || mkdir /media/sd/CASS/FTP/LOG
 	[ -e $LOGFILE ] || touch $LOGFILE
 	start-stop-daemon -b -S -q -m -p /var/run/syslogd.pid --exec /sbin/syslogd -- $SYSLOGD_ARGS -O $LOGFILE
 	start-stop-daemon -b -S -q -m -p /var/run/klogd.pid --exec /sbin/klogd -- $KLOGD_ARGS

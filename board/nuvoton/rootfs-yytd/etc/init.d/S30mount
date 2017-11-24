@@ -4,11 +4,47 @@
 #
 
 TAG="MOUNT"
+
+do_mount_SD()
+{
+	mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
+	return $?
+}
+
+do_make_dir()
+{
+	if [ ! -e /media/sd/CASS ]; then
+		logger -t ${TAG} -s "SD card is empty,we need to create the directory."
+		mkdir -pv /media/sd/CASS/ALARM &&
+        	mkdir -pv /media/sd/CASS/BACKUP &&
+		mkdir -pv /media/sd/CASS/FTP &&
+        	mkdir -pv /media/sd/CASS/FTP/CAMERA &&
+        	mkdir -pv /media/sd/CASS/FTP/INFO &&
+        	mkdir -pv /media/sd/CASS/FTP/PIC &&
+		mkdir -pv /media/sd/CASS/FTP/LOG &&
+        	mkdir -pv /media/sd/CASS/STATE &&
+        	mkdir -pv /media/sd/CASS/UPDATE &&
+		return 0 || return 1
+	else
+		logger -t ${TAG} -s "SD card already contain the directory, just continue."
+	fi
+}
+
+do_format_SD_and_mkdir()
+{
+	grep -q '/dev/mmcblk0p1 /media/sd' /proc/mounts && umount /media/sd
+	mkfs.vfat /dev/mmcblk0p1 &&
+	do_mount_SD &&
+	do_make_dir &&
+	return 0 || return 1
+}
+
 case "$1" in
   start)
 	if [ -e /dev/mmcblk0p1 ]; then 
 		logger -t ${TAG} -s "Starting mount SD card..."
-		/bin/mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
+		#/bin/mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
+		do_mount_SD && do_make_dir || do_format_SD_and_mkdir
 		[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	fi
 	

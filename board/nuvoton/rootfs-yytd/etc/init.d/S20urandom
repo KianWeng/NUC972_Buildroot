@@ -6,6 +6,7 @@
 # Version:	@(#)urandom  1.33  22-Jun-1998  miquels@cistron.nl
 #
 
+TAG="URANDOM"
 [ -c /dev/urandom ] || exit 0
 #. /etc/default/rcS
 
@@ -14,12 +15,12 @@ case "$1" in
 		# check for read only file system
 		if ! touch /etc/random-seed 2>/dev/null
 		then
-			echo "read-only file system detected...done"
+			logger -t ${TAG} -s "read-only file system detected...done"
 			exit
 		fi
 		if [ "$VERBOSE" != no ]
 		then
-			printf "Initializing random number generator... "
+			logger -t ${TAG} -s "Initializing random number generator... "
 		fi
 		# Load and then save 512 bytes,
 		# which is the size of the entropy pool
@@ -27,9 +28,9 @@ case "$1" in
 		rm -f /etc/random-seed
 		umask 077
 		dd if=/dev/urandom of=/etc/random-seed count=1 \
-			>/dev/null 2>&1 || echo "urandom start: failed."
+			>/dev/null 2>&1 || logger -t ${TAG} -s "urandom start: failed."
 		umask 022
-		[ "$VERBOSE" != no ] && echo "done."
+		[ "$VERBOSE" != no ] && logger -t ${TAG} -s "done."
 		;;
 	stop)
 		if ! touch /etc/random-seed 2>/dev/null
@@ -38,11 +39,11 @@ case "$1" in
                 fi
 		# Carry a random seed from shut-down to start-up;
 		# see documentation in linux/drivers/char/random.c
-		[ "$VERBOSE" != no ] && printf "Saving random seed... "
+		[ "$VERBOSE" != no ] && logger -t ${TAG} -s "Saving random seed... "
 		umask 077
 		dd if=/dev/urandom of=/etc/random-seed count=1 \
-			>/dev/null 2>&1 || echo "urandom stop: failed."
-		[ "$VERBOSE" != no ] && echo "done."
+			>/dev/null 2>&1 || logger -t ${TAG} -s "urandom stop: failed."
+		[ "$VERBOSE" != no ] && logger -t ${TAG} -s "done."
 		;;
 	*)
 		echo "Usage: urandom {start|stop}" >&2

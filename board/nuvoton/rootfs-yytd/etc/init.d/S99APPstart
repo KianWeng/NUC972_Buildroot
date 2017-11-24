@@ -3,21 +3,21 @@
 # Start YYTD start.sh....
 #
 
-
+TAG="YYTD"
 first_start(){
 	if [ -e /dev/mtdblock5 ];then
-		printf "Starting mount app mtdblock..."
+		logger -t ${TAG} -s "Starting mount app mtdblock..."
 		mount -t jffs2 /dev/mtdblock5 /tmp/ 
 		if [ $? = 0 ];then 
-			echo "OK" 
+			logger -t ${TAG} -s "OK" 
 		else
-			echo "FAIL" && exit 1
+			logger -t ${TAG} -s "FAIL" && exit 1
 		fi
         fi
 	
-	printf "Uncompress app.tar.gz to yy folder"
+	logger -t ${TAG} -s "Uncompress app.tar.gz to yy folder"
 	tar xf /tmp/app.tar.gz -C /yy/
-	[ $? = 0 ] && echo "OK" || echo "FAIL" 
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL" 
 	
 	umount /tmp/
 	/yy/app/start.sh &
@@ -27,9 +27,9 @@ first_start(){
 case "$1" in
   start)
         if [ -e /yy/app/start.sh ]; then
-                printf "Starting YYTD app..."
+                logger -t ${TAG} -s "Starting YYTD app..."
                 /yy/app/start.sh &
-                [ $? = 0 ] && echo "OK" || echo "FAIL"
+                [ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	else 
 		first_start
 		

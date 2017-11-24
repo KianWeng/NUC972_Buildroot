@@ -3,24 +3,25 @@
 # Start mount....
 #
 
+TAG="MOUNT"
 case "$1" in
   start)
 	if [ -e /dev/mmcblk0p1 ]; then 
-		printf "Starting mount SD card..."
+		logger -t ${TAG} -s "Starting mount SD card..."
 		/bin/mount -t vfat -o uid=1000,gid=1000 /dev/mmcblk0p1 /media/sd
-		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	fi
 	
 	if [ -e /dev/mtdblock0 ]; then
-		printf "Starting mount yy..."
+		logger -t ${TAG} -s "Starting mount yy..."
 		/bin/mount -t yaffs2 /dev/mtdblock0 /yy
-		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	fi
 
 	if [ -e /dev/mtdblock1 ];then
-		printf "Starting mount userdata..."
+		logger -t ${TAG} -s "Starting mount userdata..."
 		/bin/mount -t yaffs2 /dev/mtdblock1 /userdata 
-		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	fi
 	;;
   stop)

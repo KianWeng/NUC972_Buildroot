@@ -3,19 +3,20 @@
 # Start the network....
 #
 
+TAG="NETWORK"
 # Debian ifupdown needs the /run/network lock directory
 mkdir -p /run/network
 
 case "$1" in
   start)
-	printf "Starting network: "
+	logger -t ${TAG} -s "Starting network: "
 	/sbin/ifup -a
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	;;
   stop)
-	printf "Stopping network: "
+	logger -t ${TAG} -s "Stopping network: "
 	/sbin/ifdown -a
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	;;
   restart|reload)
 	"$0" stop

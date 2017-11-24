@@ -2,10 +2,10 @@
 #
 # Start mdev....
 #
-
+TAG="MDEV"
 case "$1" in
   start)
-	echo "Starting mdev..."
+	logger -t ${TAG} -s "Starting mdev..."
 	echo > /dev/mdev.seq
 	echo /sbin/mdev >/proc/sys/kernel/hotplug
 	/sbin/mdev -s

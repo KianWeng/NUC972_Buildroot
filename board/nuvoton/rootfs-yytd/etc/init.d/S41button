@@ -3,11 +3,12 @@
 # Start button demo....
 #
 
+TAG="BUTTON"
 case "$1" in
   start)
-	echo "Starting button demo..."
+	logger -t ${TAG} -s "Starting button demo..."
 	gpio_button_demo &
-	echo "OK"
+	logger -t ${TAG} -s "OK"
 	;;
   stop)
 	;;

@@ -3,25 +3,27 @@
 # Start logging
 #
 
+TAG="SYSLOG"
 SYSLOGD_ARGS=-n
 KLOGD_ARGS=-n
 [ -r /etc/default/logging ] && . /etc/default/logging
 
 start() {
-	printf "Starting logging: "
-	LOGFILE="/userdata/log/syslog_$(date "+%Y%m%d_%H_%M_%S")"
+	logger -t ${TAG} -s "Starting logging: "
+	#LOGFILE="/userdata/log/syslog_$(date "+%Y%m%d_%H_%M_%S")"
+	LOGFILE="/userdata/log/yytd_syslog"
 	[ -d /userdata/log ] || mkdir /userdata/log
 	[ -e $LOGFILE ] || touch $LOGFILE
 	start-stop-daemon -b -S -q -m -p /var/run/syslogd.pid --exec /sbin/syslogd -- $SYSLOGD_ARGS -O $LOGFILE
 	start-stop-daemon -b -S -q -m -p /var/run/klogd.pid --exec /sbin/klogd -- $KLOGD_ARGS
-	echo "OK"
+	logger -t ${TAG} -s "OK"
 }
 
 stop() {
-	printf "Stopping logging: "
+	logger -t ${TAG} -s "Stopping logging: "
 	start-stop-daemon -K -q -p /var/run/syslogd.pid
 	start-stop-daemon -K -q -p /var/run/klogd.pid
-	echo "OK"
+	logger -t ${TAG} -s "OK"
 }
 
 case "$1" in

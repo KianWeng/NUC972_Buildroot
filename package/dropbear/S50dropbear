@@ -20,23 +20,23 @@ start() {
 		if rm -f /etc/dropbear >/dev/null 2>&1; then
 			mkdir -p /etc/dropbear
 		else
-			echo "No persistent location to store SSH host keys. New keys will be"
-			echo "generated at each boot. Are you sure this is what you want to do?"
+			logger -t ${TAG} -s "No persistent location to store SSH host keys. New keys will be"
+			logger -t ${TAG} -s "generated at each boot. Are you sure this is what you want to do?"
 			mkdir -p "$(readlink /etc/dropbear)"
 		fi
 	fi
 
-	printf "Starting dropbear sshd: "
+	logger -t ${TAG} -s "Starting dropbear sshd: "
 	umask 077
 
 	start-stop-daemon -S -q -p /var/run/dropbear.pid \
 		--exec /usr/sbin/dropbear -- $DROPBEAR_ARGS
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 }
 stop() {
-	printf "Stopping dropbear sshd: "
+	logger -t ${TAG} -s "Stopping dropbear sshd: "
 	start-stop-daemon -K -q -p /var/run/dropbear.pid
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 }
 restart() {
 	stop

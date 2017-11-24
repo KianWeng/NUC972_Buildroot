@@ -1,12 +1,13 @@
 #!/bin/sh
 
+TAG="FTP"
 ARGS="-0 -1 -4 -A -B -C 8 -c 7 -D -E -H -I 10 -j -l puredb:/etc/pureftpd.pdb -s -z -Z"
 start() {
     #pure-ftpd -l puredb:/etc/pureftpd.pdb &
-    printf "Starting pureftpd: "
+    logger -t ${TAG} -s "Starting pureftpd: "
     start-stop-daemon -S -q -p /var/run/pureftpd.pid \
     --exec /usr/sbin/pure-ftpd -- $ARGS
-    [ $? = 0 ] && echo "OK" || echo "FAIL"
+    [ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 }
 
 case "$1" in
@@ -14,9 +15,9 @@ case "$1" in
         start
         ;;
     stop)
-	printf "Stopping pureftpd: "
+	logger -t ${TAG} -s "Stopping pureftpd: "
 	start-stop-daemon -K -q -p /var/run/pureftpd.pid
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	[ $? = 0 ] && logger -t ${TAG} -s "OK" || logger -t ${TAG} -s "FAIL"
 	;;
     *)
         echo "Usage: /etc/init.d/S50pureftpd {start|stop}"

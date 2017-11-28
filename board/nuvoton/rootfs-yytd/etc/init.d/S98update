@@ -1,0 +1,72 @@
+#!/bin/sh
+
+TAG="UPDATE"
+#uboot="/media/sd/CASS/UPDATE/uboot.bin"
+uImage="/media/sd/CASS/UPDATE/uImage"
+ZIP="/media/sd/CASS/UPDATE/update.zip"
+
+do_check_signature()
+{
+	cd /media/sd/CASS/UPDATE
+	md5sum -s -c ${uImage}.md5sum &&
+	logger -t ${TAG} -s "uImage md5sum is fine!" && return 0
+	logger -t ${TAG} -s "uImage md5sum is invalid!"
+	rm -rf ${uImage}*
+	return 1
+}
+
+do_upgrade()
+{
+#	if [ -e ${uboot} ];then
+#		logger -t ${TAG} -s "Starting upgrade uboot..."
+#		flashcp ${uboot} /dev/mtd2
+#		if [ $? = 0 ];then
+#			logger -t ${TAG} -s "Upgrade uboot OK!" 
+#			touch /media/sd/CASS/UPDATE/.uboot_upgrade_success
+#		else
+#			logger -t ${TAG} -s "Upgrade uboot FAIL!!!"
+#			touch /media/sd/CASS/UPDATE/.uboot_upgrade_fail
+#		fi 
+#	fi
+	
+	if [ -e ${ZIP} ];then
+		logger -t ${TAG} -s "Detecting update.zip, unzipping it..."
+		unzip ${ZIP} -d /media/sd/CASS/UPDATE
+	else
+		exit 1
+	fi
+
+	if [ -e ${uImage} ];then
+		do_check_signature
+		if [ $? = 0 ];then
+			logger -t ${TAG} -s "Starting upgrade uImage..."
+			flashcp ${uImage} /dev/mtd4
+			if [ $? = 0 ];then 
+				logger -t ${TAG} -s "Upgrade uImage OK, Now we will reboot the system!" 
+				touch /media/sd/CASS/UPDATE/.uImage_upgrade_success
+				rm -rf ${uImage}* ${ZIP}
+				reboot
+			else
+				logger -t ${TAG} -s "Upgrade uImage FAIL!!!"
+				touch /media/sd/CASS/UPDATE/.uImage_upgrade_fail
+				rm -rf ${uImage}* ${ZIP}
+			fi
+		else
+			rm -rf ${uImage}* ${ZIP}
+			exit 1
+		fi
+	else
+		rm -rf ${uImage}* ${ZIP}
+		exit 1
+	fi
+}
+
+case "$1" in
+	start)
+		do_upgrade
+		;;
+	*)
+		exit 1
+		;;
+esac
+exit $?

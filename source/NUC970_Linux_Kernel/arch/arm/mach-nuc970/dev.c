@@ -811,9 +811,14 @@ static struct mtd_partition nuc970_spi0_flash_partitions[] = {
                 .offset = 0x080000,
         },
         {
-                .name = "kernel",
-                .size = 0xE00000,
+                .name = "system_A",
+                .size = 0x700000,
                 .offset = 0x200000,
+        },
+        {
+                .name = "system_B",
+                .size = 0x700000,
+                .offset = 0x900000,
         },
         {
                 .name = "rootfs",

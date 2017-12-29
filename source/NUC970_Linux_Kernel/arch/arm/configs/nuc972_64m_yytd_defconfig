@@ -895,8 +895,9 @@ CONFIG_SERIAL_NUC970=y
 # CONFIG_NUC970_UART1_FC_PH is not set
 # CONFIG_NUC970_UART1_PI is not set
 # CONFIG_NUC970_UART1_FC_PI is not set
-# CONFIG_NUC970_UART2 is not set
-# CONFIG_NUC970_UART2_PF is not set
+CONFIG_NUC970_UART2=y
+# CONFIG_ENABLE_UART2_CTS_WAKEUP is not set
+CONFIG_NUC970_UART2_PF=y
 # CONFIG_NUC970_UART2_FC_PF is not set
 # CONFIG_NUC970_UART3 is not set
 # CONFIG_NUC970_UART4 is not set
@@ -946,7 +947,46 @@ CONFIG_SERIAL_CORE_CONSOLE=y
 # CONFIG_TCG_TPM is not set
 # CONFIG_NUC970_MEM is not set
 # CONFIG_NUC970_DMA_PROXY is not set
-# CONFIG_I2C is not set
+CONFIG_I2C=y
+CONFIG_I2C_BOARDINFO=y
+CONFIG_I2C_COMPAT=y
+# CONFIG_I2C_CHARDEV is not set
+# CONFIG_I2C_MUX is not set
+CONFIG_I2C_HELPER_AUTO=y
+
+#
+# I2C Hardware Bus support
+#
+
+#
+# I2C system bus drivers (mostly embedded / system-on-chip)
+#
+# CONFIG_I2C_CBUS_GPIO is not set
+# CONFIG_I2C_DESIGNWARE_PLATFORM is not set
+# CONFIG_I2C_GPIO is not set
+CONFIG_I2C_BUS_NUC970_P0=y
+# CONFIG_I2C_BUS_NUC970_P1 is not set
+# CONFIG_I2C_OCORES is not set
+# CONFIG_I2C_PCA_PLATFORM is not set
+# CONFIG_I2C_PXA_PCI is not set
+# CONFIG_I2C_SIMTEC is not set
+# CONFIG_I2C_XILINX is not set
+
+#
+# External I2C/SMBus adapter drivers
+#
+# CONFIG_I2C_DIOLAN_U2C is not set
+# CONFIG_I2C_PARPORT_LIGHT is not set
+# CONFIG_I2C_TAOS_EVM is not set
+# CONFIG_I2C_TINY_USB is not set
+
+#
+# Other I2C/SMBus bus drivers
+#
+# CONFIG_I2C_STUB is not set
+# CONFIG_I2C_DEBUG_CORE is not set
+# CONFIG_I2C_DEBUG_ALGO is not set
+# CONFIG_I2C_DEBUG_BUS is not set
 CONFIG_SPI=y
 CONFIG_SPI_MASTER=y
 
@@ -1329,6 +1369,9 @@ CONFIG_RTC_INTF_DEV=y
 # CONFIG_RTC_DRV_TEST is not set
 
 #
+# I2C RTC drivers
+#
+CONFIG_RTC_DRV_RX8010=y
 # SPI RTC drivers
 #
 # CONFIG_RTC_DRV_M41T93 is not set
@@ -1359,9 +1402,7 @@ CONFIG_RTC_INTF_DEV=y
 # CONFIG_RTC_DRV_RP5C01 is not set
 # CONFIG_RTC_DRV_V3020 is not set
 # CONFIG_RTC_DRV_DS2404 is not set
-CONFIG_RTC_DRV_NUC970=y
-CONFIG_ENABLE_RTC_WAKEUP=y
-# CONFIG_ENABLE_RTC_TICK_WAKEUP is not set
+# CONFIG_RTC_DRV_NUC970 is not set
 
 #
 # on-CPU RTC drivers

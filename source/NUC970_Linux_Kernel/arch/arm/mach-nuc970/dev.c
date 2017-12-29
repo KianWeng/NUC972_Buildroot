@@ -733,6 +733,10 @@ static struct i2c_board_info __initdata nuc970_i2c_clients0[] =
 #ifdef CONFIG_SND_SOC_NAU8822
 	{I2C_BOARD_INFO("nau8822", 0x1a),},
 #endif
+
+#ifdef CONFIG_RTC_DRV_RX8010
+	{I2C_BOARD_INFO("rx8010", 0x32),}
+#endif
 };
 static struct resource nuc970_i2c0_resource[] = {
         [0] = {

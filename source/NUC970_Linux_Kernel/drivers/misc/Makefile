@@ -47,6 +47,7 @@ obj-$(CONFIG_PCH_PHUB)		+= pch_phub.o
 obj-y				+= ti-st/
 obj-y				+= lis3lv02d/
 obj-y				+= carma/
+obj-y               += yytd_gpio_slot.o
 obj-$(CONFIG_USB_SWITCH_FSA9480) += fsa9480.o
 obj-$(CONFIG_ALTERA_STAPL)	+=altera-stapl/
 obj-$(CONFIG_INTEL_MEI)		+= mei/
@@ -57,4 +58,3 @@ obj-$(CONFIG_NUC970_ETIMER)	+= nuc970-etimer.o
 obj-$(CONFIG_NUC970_GE2D)	+= nuc970_ge2d.o
 obj-$(CONFIG_NUC970_SC)		+= nuc970-sc.o sc-util.o sc-t0.o sc-t1.o
 obj-$(CONFIG_NUC970_EBI)	+= nuc970-ebi.o
-

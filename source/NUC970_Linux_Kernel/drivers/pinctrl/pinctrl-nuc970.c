@@ -228,7 +228,8 @@ static const unsigned nand_3_pins[] = {0x64, 0x65};  // ncs1, rdy1
 static const unsigned emmc_0_pins[] = {0x20, 0x21, 0x22, 0x23, 0x24, 0x25};  // Port C
 static const unsigned emmc_1_pins[] = {0x85, 0x86, 0x87, 0x88, 0x89, 0x8A};  // Port I
 
-static const unsigned usbh_pe_pins[] = {0x4E, 0x4F, 0x71}; // ppwr0 & ppwr1, over-current
+//static const unsigned usbh_pe_pins[] = {0x4E, 0x4F, 0x71}; // ppwr0 & ppwr1, over-current
+static const unsigned usbh_pe_pins[] = {0x4E, 0x71}; // ppwr0 & ppwr1, over-current
 static const unsigned usbh_pf_pin[] = {0x5A, 0x71};        // ppwr, over-current
 static const unsigned usbh_oc_pin[] = {0x71};            // over-current
 static const unsigned usbd_pin[] = {0x70};  // vbvld

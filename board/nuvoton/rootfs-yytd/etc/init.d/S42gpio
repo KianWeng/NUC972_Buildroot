@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Start init gpio interface....
+#
+
+TAG="GPIO"
+case "$1" in
+  start)
+        logger -t ${TAG} -s "Starting init gpio interface..."
+	#switch ic reset pin
+        echo 37 > /sys/class/gpio/export
+	echo out > /sys/class/gpio/gpio37/direction
+	echo 0 > /sys/class/gpio/gpio37/value
+	#USB power control pin
+	echo 143 > /sys/class/gpio/export
+        echo out > /sys/class/gpio/gpio143/direction
+        echo 0 > /sys/class/gpio/gpio143/value
+	#4G module power control pin
+	echo 256 > /sys/class/gpio/export
+        echo out > /sys/class/gpio/gpio256/direction
+        echo 0 > /sys/class/gpio/gpio256/value
+        logger -t ${TAG} -s "OK"
+        ;;
+  stop)
+	echo 37 > /sys/class/gpio/unexport
+	echo 143 > /sys/class/gpio/unexport
+	echo 256 > /sys/class/gpio/unexport
+        ;;
+  restart|reload)
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?

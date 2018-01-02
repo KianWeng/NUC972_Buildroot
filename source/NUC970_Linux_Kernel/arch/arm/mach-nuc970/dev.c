@@ -1522,21 +1522,35 @@ struct platform_device nuc970_pwm_bl = {
 
 static struct gpio_led gpio_leds[] = {
     {
-        .name = "system",
+        .name = "system_core",
         .gpio = NUC970_PD7, // prot D07
         .default_state = LEDS_GPIO_DEFSTATE_ON, // ??¨¨?LED¨¢¨¢
         .active_low = 1, // ¦Ì¨ª¦Ì???¨¢¨¢
-        .default_trigger = "timer", // ¡ä£¤¡¤¡é?¡Â??timer
+        .default_trigger = "heartbeat", // ¡ä£¤¡¤¡é?¡Â??timer
     },
-    /*
+    
     {
-        .name = "usr",
-        .gpio = 34,
+        .name = "system_run",
+        .gpio = NUC970_PD10,
         .default_state = LEDS_GPIO_DEFSTATE_ON, 
         .active_low = 1,
         .default_trigger = "heartbeat", 
     },
-    */
+    {
+        .name = "upc",
+        .gpio = NUC970_PD11,
+        .default_state = LEDS_GPIO_DEFSTATE_OFF, 
+        .active_low = 1,
+        .default_trigger = "none", 
+    },
+    {
+        .name = "alarm",
+        .gpio = NUC970_PD12,
+        .default_state = LEDS_GPIO_DEFSTATE_OFF, 
+        .active_low = 1,
+        .default_trigger = "none", 
+    },
+    
 };
 
 static struct gpio_led_platform_data gpio_led_info = {

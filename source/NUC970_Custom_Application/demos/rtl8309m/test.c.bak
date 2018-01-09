@@ -1,0 +1,61 @@
+#include <stdio.h>  
+#include <fcntl.h>  
+#include <stdlib.h>  
+#include <string.h>  
+#include <sys/types.h>  
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <rtk_api_ext.h>
+
+#define RTL8309_MAGIC 'R'  //当然我们也可以定义一个相应的头文件，把ioctl的cmd放进里面，然后再include进 来
+#define RTL8309M_GET_REG_DATA   _IO(RTL8309_MAGIC, 0x20)
+#define RTL8309M_SET_REG_DATA   _IO(RTL8309_MAGIC, 0x21)
+#define RTL8309M_READ_REG       _IO(RTL8309_MAGIC, 0x22)
+#define RTL8309M_WRITE_REG      _IO(RTL8309_MAGIC, 0x23)
+
+struct rtl8309m_register_data {
+	unsigned int phyad;
+	unsigned int regad;
+};
+
+int main(void)
+{
+    struct rtl8309m_register_data reg_data;
+    int fd, ret, value;
+
+    fd = open("/dev/rtl8309m", O_RDWR);
+    if (fd == -1)
+    {
+    	perror("open");
+    	exit(0);
+    }
+
+    //printf("get is 0x%x,set is 0x%x,read is 0x%x,write is 0x%x.\n",RTL8309M_GET_REG_DATA,RTL8309M_SET_REG_DATA,RTL8309M_READ_REG,RTL8309M_WRITE_REG);
+    reg_data.phyad = 0;
+    reg_data.regad = 2;
+	
+    ret = ioctl(fd, RTL8309M_SET_REG_DATA, &reg_data);
+    if (ret == -1){
+    	perror("ioctl");
+    	exit(0);
+    }
+    
+    ret = ioctl(fd, RTL8309M_READ_REG, &value);
+    printf("PHY port 0 id1= %d \n",value);
+
+    reg_data.phyad = 0;
+    reg_data.regad = 3;
+
+    ret = ioctl(fd, RTL8309M_SET_REG_DATA, &reg_data);
+    if (ret == -1){
+        perror("ioctl");
+        exit(0);
+    }
+    
+    ret = ioctl(fd, RTL8309M_READ_REG, &value);
+    printf("PHY port 0 id2= %d \n",value);
+
+    close(fd);
+    return 0;
+}

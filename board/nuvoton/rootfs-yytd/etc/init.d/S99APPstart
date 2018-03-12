@@ -5,9 +5,9 @@
 
 TAG="YYTD"
 first_start(){
-	if [ -e /dev/mtdblock5 ];then
+	if [ -e /dev/mtdblock6 ];then
 		logger -t ${TAG} -s "Starting mount app mtdblock..."
-		mount -t jffs2 /dev/mtdblock5 /tmp/ 
+		mount -t jffs2 /dev/mtdblock6 /tmp/ 
 		if [ $? = 0 ];then 
 			logger -t ${TAG} -s "OK" 
 		else

@@ -13,17 +13,14 @@ do_mount_SD()
 
 do_make_dir()
 {
-	if [ ! -e /media/sd/CASS ]; then
+	if [ ! -e /media/sd/ftp ]; then
 		logger -t ${TAG} -s "SD card is empty,we need to create the directory."
-		mkdir -pv /media/sd/CASS/ALARM &&
-        	mkdir -pv /media/sd/CASS/BACKUP &&
-		mkdir -pv /media/sd/CASS/FTP &&
-        	mkdir -pv /media/sd/CASS/FTP/CAMERA &&
-        	mkdir -pv /media/sd/CASS/FTP/INFO &&
-        	mkdir -pv /media/sd/CASS/FTP/PIC &&
-		mkdir -pv /media/sd/CASS/FTP/LOG &&
-        	mkdir -pv /media/sd/CASS/STATE &&
-        	mkdir -pv /media/sd/CASS/UPDATE &&
+		mkdir -pv /media/sd/ftp/upgrade &&
+        mkdir -pv /media/sd/ftp/PIC &&
+        mkdir -pv /media/sd/ftp/Measurement &&
+        mkdir -pv /media/sd/ftp/logs &&
+        mkdir -pv /media/sd/ftp/Config &&
+        mkdir -pv /media/sd/ftp/Alarm &&
 		return 0 || return 1
 	else
 		logger -t ${TAG} -s "SD card already contain the directory, just continue."

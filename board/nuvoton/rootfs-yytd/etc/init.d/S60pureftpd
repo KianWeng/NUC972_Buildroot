@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TAG="FTP"
-ARGS="-0 -1 -4 -A -B -C 8 -c 7 -D -E -H -I 10 -j -l puredb:/etc/pureftpd.pdb -s -z -Z"
+ARGS="-0 -1 -4 -A -B -C 8 -c 7 -D -E -H -I 10 -j -l puredb:/yy/app/config/pureftpd.pdb -s -z -Z"
 start() {
     #pure-ftpd -l puredb:/etc/pureftpd.pdb &
     logger -t ${TAG} -s "Starting pureftpd: "

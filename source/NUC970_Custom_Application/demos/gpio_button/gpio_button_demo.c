@@ -38,6 +38,8 @@ Event types
 */
 
 #define INFTIM -1
+static time_t press_time;
+static time_t release_time;
 
 int main(void)
 {
@@ -76,8 +78,16 @@ int main(void)
 					case EV_KEY:
 						//按键事件 keycode 249
 						if(event_key.code == 249 && event_key.value == 1){
-							printf("GPIO_BUTTON:Recovery key pressed,now we will recovery the system.\n");
-						}
+                            time(&press_time);
+							printf("GPIO_BUTTON:Recovery key pressed.\n");
+						}else if(event_key.code == 249 && event_key.value == 0){
+                            time(&release_time);
+                            printf("GPIO_BUTTON:Recovery key released.\n");
+                            if((release_time - press_time) >= 5){
+                                printf("GPIO_BUTTON:Recovery key pressed more than 5 seconds, now we will recovery the FSU system.");
+                                system("recovery.sh");
+                            }
+                        }
 						break;
 					defalut:
 						break ;

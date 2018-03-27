@@ -2,12 +2,12 @@
 
 TAG="UPDATE"
 #uboot="/media/sd/CASS/UPDATE/uboot.bin"
-uImage="/media/sd/CASS/UPDATE/uImage"
-ZIP="/media/sd/CASS/UPDATE/update.zip"
+uImage="/media/sd/ftp/upgrade/uImage"
+ZIP="/media/sd/ftp/upgrade/update.zip"
 
 do_check_signature()
 {
-	cd /media/sd/CASS/UPDATE
+	cd /media/sd/ftp/upgrade
 	md5sum -s -c ${uImage}.md5sum &&
 	logger -t ${TAG} -s "uImage md5sum is fine!" && return 0
 	logger -t ${TAG} -s "uImage md5sum is invalid!"
@@ -31,7 +31,7 @@ do_upgrade()
 	
 	if [ -e ${ZIP} ];then
 		logger -t ${TAG} -s "Detecting update.zip, unzipping it..."
-		unzip ${ZIP} -d /media/sd/CASS/UPDATE
+		unzip ${ZIP} -d /media/sd/ftp/upgrade
 	else
 		exit 1
 	fi
@@ -43,16 +43,17 @@ do_upgrade()
 			flashcp ${uImage} /dev/mtd4
 			if [ $? = 0 ];then 
 				logger -t ${TAG} -s "Upgrade uImage OK, Now we will reboot the system!" 
-				touch /media/sd/CASS/UPDATE/.uImage_upgrade_success
+				touch /media/sd/ftp/upgrade/.uImage_upgrade_success_`date +%Y%m%d%H%M`
 				rm -rf ${uImage}* ${ZIP}
 				reboot
 			else
 				logger -t ${TAG} -s "Upgrade uImage FAIL!!!"
-				touch /media/sd/CASS/UPDATE/.uImage_upgrade_fail
+				touch /media/sd/ftp/upgrade/.uImage_upgrade_fail_`date +%Y%m%d%H%M`
 				rm -rf ${uImage}* ${ZIP}
 			fi
 		else
 			rm -rf ${uImage}* ${ZIP}
+            touch /media/sd/ftp/upgrade/.uImage_upgrade_fail_`date +%Y%m%d%H%M`
 			exit 1
 		fi
 	else

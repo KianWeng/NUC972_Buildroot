@@ -95,8 +95,15 @@ extern void mdm_init(void); /* defined in board.c */
 #define GPIO_PH3	(7*0x20 + 3)
 extern int gpio_request(unsigned gpio, const char *label);
 extern int gpio_direction_output(unsigned gpio, int val);
+extern int gpio_direction_input(unsigned gpio);
+extern int gpio_get_value(unsigned gpio);
+extern int gpio_set_value(unsigned gpio, int value);
 #endif
 
+#ifdef CPNFIG_YYTD_DOUBLE_SYSTEM
+static char system_A_bootcmd[] = "sf probe 0 18000000; sf read 0x7fc0 0x200000 0x700000; bootm 0x7fc0";
+static char system_B_bootcmd[] = "sf probe 0 18000000; sf read 0x7fc0 0x900000 0x700000; bootm 0x7fc0";
+#endif
 /***************************************************************************
  * Watch for 'delay' seconds for autoboot stop or autoboot delay string.
  * returns: 0 -  no key string, allow autoboot 1 - got key string, abort
@@ -491,7 +498,33 @@ void main_loop (void)
 
 #endif /* CONFIG_OF_CONTROL */
 
-	debug ("### main_loop: bootcmd=\"%s\"\n", s ? s : "<UNDEFINED>");
+#ifdef CPNFIG_YYTD_DOUBLE_SYSTEM
+/*
+	if(gpio_get_value(GPIO_SYSTEM)){
+		s = system_A_bootcmd;
+		if(strcmp("system_A",getenv("Current_system")) != 0){
+			setenv("Current_system","system_A");
+			saveenv();
+		}
+	}
+	else{
+		s = system_B_bootcmd;
+		if(strcmp("system_B",getenv("Current_system")) != 0){
+			setenv("Current_system","system_B");
+			saveenv();
+		}
+	}
+*/
+	if(strcmp("system_A",getenv("Current_system")) == 0){
+		s = system_A_bootcmd;
+		printf("### current system is system_A\n");
+	}else if(strcmp("system_B",getenv("Current_system")) == 0){
+		s = system_B_bootcmd;
+		printf("### current system is system_B\n");
+	}
+#endif
+
+	printf("### bootcmd=\"%s\"\n", s ? s : "<UNDEFINED>");
 
 	if (bootdelay != -1 && s && !abortboot(bootdelay)) {
 # ifdef CONFIG_AUTOBOOT_KEYED

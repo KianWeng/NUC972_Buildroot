@@ -256,6 +256,7 @@
 #endif
 
 #define CONFIG_NUC970_GPIO
+#define CPNFIG_YYTD_DOUBLE_SYSTEM
 
 /*
  * Size of malloc() pool
@@ -265,10 +266,11 @@
 #define CONFIG_STACKSIZE	(32*1024)	/* regular stack */
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
+		"Current_system=system_A" \
 	    "serverip=192.168.1.100\0" \
 	    "ipaddr=192.168.1.101\0" \
 		"watchdog=off\0" \
         "uimage=eth2uart.ub\0" \
-        "bootcmd=sf probe 0 18000000; sf read 0x7fc0 0x200000 0x780000; bootm 0x7fc0\0" \
+        "bootcmd=sf probe 0 18000000; sf read 0x7fc0 0x200000 0x700000; bootm 0x7fc0\0" \
 
 #endif

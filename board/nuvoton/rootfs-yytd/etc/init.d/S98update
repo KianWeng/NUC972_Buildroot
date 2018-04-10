@@ -4,6 +4,8 @@ TAG="UPDATE"
 #uboot="/media/sd/CASS/UPDATE/uboot.bin"
 uImage="/media/sd/ftp/upgrade/uImage"
 ZIP="/media/sd/ftp/upgrade/update.zip"
+Current_system=""
+MTD_PATH=""
 
 do_check_signature()
 {
@@ -40,10 +42,26 @@ do_upgrade()
 		do_check_signature
 		if [ $? = 0 ];then
 			logger -t ${TAG} -s "Starting upgrade uImage..."
-			flashcp ${uImage} /dev/mtd4
+            fw_printenv > /var/run/env.txt
+            Current_system=$(grep -o 'Current_system=.*' /var/run/env.txt | sed 's/Current_system=//')
+            if [ ${Current_system} = "system_A" ];then
+                logger -t ${TAG} -s "Current system is system_A, we will update the new image to system_B."
+                MTD_PATH="/dev/mtd5"
+            else
+                logger -t ${TAG} -s "Current system is system_B, we will update the new image to system_A."
+                MTD_PATH="/dev/mtd4"
+            fi
+            
+            flash_erase ${MTD_PATH} 0x00 0x00 -q
+			flashcp ${uImage} ${MTD_PATH}
 			if [ $? = 0 ];then 
 				logger -t ${TAG} -s "Upgrade uImage OK, Now we will reboot the system!" 
 				touch /media/sd/ftp/upgrade/.uImage_upgrade_success_`date +%Y%m%d%H%M`
+                if [ ${Current_system} = "system_A" ];then    
+                    fw_setenv Current_system system_B
+                else
+                    fw_setenv Current_system system_A
+                fi
 				rm -rf ${uImage}* ${ZIP}
 				reboot
 			else

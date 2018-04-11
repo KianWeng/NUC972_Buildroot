@@ -266,7 +266,7 @@
 #define CONFIG_STACKSIZE	(32*1024)	/* regular stack */
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-		"Current_system=system_A" \
+		"Current_system=system_A\0" \
 	    "serverip=192.168.1.100\0" \
 	    "ipaddr=192.168.1.101\0" \
 		"watchdog=off\0" \

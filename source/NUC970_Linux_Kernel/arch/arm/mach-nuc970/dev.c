@@ -1534,7 +1534,7 @@ static struct gpio_led gpio_leds[] = {
         .gpio = NUC970_PD10,
         .default_state = LEDS_GPIO_DEFSTATE_ON, 
         .active_low = 1,
-        .default_trigger = "heartbeat", 
+        .default_trigger = "default-on", 
     },
     {
         .name = "upc",

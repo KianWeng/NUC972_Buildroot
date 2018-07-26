@@ -564,7 +564,7 @@ BR2_PACKAGE_OPROFILE_ARCH_SUPPORTS=y
 # rt-tests needs a uClibc or glibc toolchain w/ NPTL, headers >= 3.14, dynamic library
 #
 # BR2_PACKAGE_SPIDEV_TEST is not set
-# BR2_PACKAGE_STRACE is not set
+BR2_PACKAGE_STRACE=y
 # BR2_PACKAGE_STRESS is not set
 
 #

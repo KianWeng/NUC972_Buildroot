@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TAG="BURN_MACADDR"
-BOOTARGS="root=/dev/ram0 console=ttyS0,115200n8 rdinit=/sbin/init mem=64M watchdog=on ethaddr0="
+BOOTARGS="root=/dev/ram0 console=ttyS0,115200n8 rdinit=/sbin/init mem=128M watchdog=on ethaddr0="
 usage()
 {
 	printf "a command line interface to U-Boot environment\n \
